@@ -74,7 +74,7 @@ pipeline:
                                     command: |
                                         ls
                                         docker -v
-                                        docker compose -f docker-compose.yaml up test --abort-on-container-exit --exit-code-from test
+                                        docker-compose docker-compose.yaml up
                                     privileged: true
                                     reports:
                                         type: JUnit
