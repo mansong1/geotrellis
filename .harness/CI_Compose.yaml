@@ -75,7 +75,7 @@ pipeline:
                                     command: |
                                         ls
                                         docker-compose -v
-                                        docker-compose docker-compose.yaml up test
+                                        docker-compose -f docker-compose.yaml up test
                                     privileged: true
                                     reports:
                                         type: JUnit
