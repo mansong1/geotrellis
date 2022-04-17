@@ -93,7 +93,7 @@ pipeline:
                                             paths:
                                                 - "**/*.xml"
                                     envVariables:
-                                        SCALA_VERSION: 2.13.7
+                                        SCALA_VERSION: 2.12.12
                   sharedPaths:
                       - /data
                       - /usr/local/src
