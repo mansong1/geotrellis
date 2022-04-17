@@ -71,7 +71,7 @@ pipeline:
                                     connectorRef: org.Dockerhub
                                     image: docker/compose
                                     shell: Sh
-                                    command: docker-compose -f .harness/docker-compose.yml up test --abort-on-container-exit --exit-code-from test
+                                    command: docker-compose -f docker-compose.yml up test --abort-on-container-exit --exit-code-from test
                                     privileged: true
                                     reports:
                                         type: JUnit
