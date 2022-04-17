@@ -80,3 +80,5 @@ pipeline:
                                         spec:
                                             paths:
                                                 - "**/*.xml"
+                                    envVariables:
+                                        SCALA_VERSION: 2.13.7
