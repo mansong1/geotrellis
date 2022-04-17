@@ -48,6 +48,14 @@ pipeline:
                             image: daunnc/hbase:2.2.4
                             envVariables:
                                 HBASE_DOCKER_HOSTNAME: localhost
+                      - identifier: cassandra
+                        name: cassandra
+                        type: Service
+                        spec:
+                            connectorRef: org.Dockerhub
+                            image: cassandra:3.11.6
+                            envVariables:
+                                CASSANDRA_LISTEN_ADDRESS: 127.0.0.1
                   execution:
                       steps:
                           - step:
