@@ -40,6 +40,14 @@ pipeline:
                             envVariables:
                                 MINIO_ACCESS_KEY: minio
                                 MINIO_SECRET_KEY: password
+                      - identifier: hbase
+                        name: hbase
+                        type: Service
+                        spec:
+                            connectorRef: org.Dockerhub
+                            image: daunnc/hbase:2.2.4
+                            envVariables:
+                                HBASE_DOCKER_HOSTNAME: localhost
                   execution:
                       steps:
                           - step:
