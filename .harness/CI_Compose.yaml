@@ -51,3 +51,14 @@ pipeline:
                                         done
                                         echo "Docker service is up"
                                         docker ps 
+                          - step:
+                                type: Run
+                                name: Unzip Rasters
+                                identifier: Unzip_Rasters
+                                spec:
+                                    connectorRef: org.Dockerhub
+                                    image: bash:latest
+                                    shell: Bash
+                                    command: |-
+                                        cd raster/data; 
+                                        unzip geotiff-test-files.zip
