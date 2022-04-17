@@ -1,0 +1,66 @@
+pipeline:
+    name: CI
+    identifier: CI
+    allowStageExecutions: false
+    projectIdentifier: Scala
+    orgIdentifier: default
+    tags: {}
+    properties:
+        ci:
+            codebase:
+                connectorRef: org.Github
+                repoName: geotrellis
+                build: <+input>
+    stages:
+        - stage:
+              name: Build and Test
+              identifier: Build_and_Test
+              type: CI
+              spec:
+                  cloneCodebase: true
+                  infrastructure:
+                      type: KubernetesDirect
+                      spec:
+                          connectorRef: org.GKE
+                          namespace: harness-builds
+                          automountServiceAccountToken: false
+                  serviceDependencies:
+                      - identifier: nginx
+                        name: nginx
+                        type: Service
+                        spec:
+                            connectorRef: org.Dockerhub
+                            image: nginx:1.18.0
+                      - identifier: minio
+                        name: minio
+                        type: Service
+                        spec:
+                            connectorRef: org.Dockerhub
+                            image: minio/minio:RELEASE.2019-05-02T19-07-09Z
+                            envVariables:
+                                MINIO_ACCESS_KEY: minio
+                                MINIO_SECRET_KEY: password
+                  execution:
+                      steps:
+                          - step:
+                                type: Run
+                                name: Unzip Rasters
+                                identifier: Unzip_Rasters
+                                spec:
+                                    connectorRef: org.Dockerhub
+                                    image: bash:latest
+                                    shell: Bash
+                                    command: |-
+                                        cd raster/data; 
+                                        unzip geotiff-test-files.zip;
+                          - step:
+                                type: Run
+                                name: Test
+                                identifier: Test
+                                spec:
+                                    connectorRef: org.Dockerhub
+                                    image: quay.io/azavea/openjdk-gdal:3.1-jdk8-slim
+                                    shell: Sh
+                                    command: ./sbt $SCALA_VERSION test
+                                    envVariables:
+                                        SCALA_VERSION: 2.13.7
