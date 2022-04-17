@@ -22,7 +22,7 @@ pipeline:
                       - /var/run
                       - /var/lib/docker
                       - /usr/local/src
-                      - ~/.sbt
+                      - ~/sbt
                   infrastructure:
                       type: KubernetesDirect
                       spec:
