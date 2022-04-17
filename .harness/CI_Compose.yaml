@@ -69,10 +69,11 @@ pipeline:
                                 identifier: Run_Tests
                                 spec:
                                     connectorRef: org.Dockerhub
-                                    image: docker/compose
+                                    image: docker/compose:1.29.2
                                     shell: Sh
                                     command: |-
                                         ls
+                                        docker-compose -v
                                         docker-compose -f docker-compose.yaml up test --abort-on-container-exit --exit-code-from test
                                     privileged: true
                                     reports:
