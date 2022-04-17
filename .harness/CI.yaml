@@ -31,6 +31,10 @@ pipeline:
                         spec:
                             connectorRef: org.Dockerhub
                             image: nginx:1.18.0
+                            entrypoint:
+                                - /bin/bash
+                                - -c
+                                - "\"cd /usr/share/nginx/html && curl -o all-ones.tif https://raw.githubusercontent.com/locationtech/geotrellis/v3.3.0/spark/src/test/resources/all-ones.tif && cd ~- && sed -i 's/listen       80;/listen       8081;/g' /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'\""
                       - identifier: minio
                         name: minio
                         type: Service
@@ -40,6 +44,11 @@ pipeline:
                             envVariables:
                                 MINIO_ACCESS_KEY: minio
                                 MINIO_SECRET_KEY: password
+                            entrypoint:
+                                - server
+                                - --address
+                                - :9091
+                                - /data
                       - identifier: hbase
                         name: hbase
                         type: Service
@@ -80,3 +89,6 @@ pipeline:
                                     command: ./sbt $SCALA_VERSION test
                                     envVariables:
                                         SCALA_VERSION: 2.13.7
+                  sharedPaths:
+                      - /data
+                      - /usr/local/src
