@@ -21,6 +21,7 @@ pipeline:
                   sharedPaths:
                       - /var/run
                       - /var/lib/docker
+                      - /usr/local/src
                   infrastructure:
                       type: KubernetesDirect
                       spec:
@@ -62,3 +63,17 @@ pipeline:
                                     command: |-
                                         cd raster/data; 
                                         unzip geotiff-test-files.zip
+                          - step:
+                                type: Run
+                                name: Run Tests
+                                identifier: Run_Tests
+                                spec:
+                                    connectorRef: org.Dockerhub
+                                    image: docker/compose
+                                    shell: Bash
+                                    command: docker compose -f .github/docker-compose.yml up test --abort-on-container-exit --exit-code-from test
+                                    reports:
+                                        type: JUnit
+                                        spec:
+                                            paths:
+                                                - "**/*.xml"
