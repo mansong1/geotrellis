@@ -71,10 +71,10 @@ pipeline:
                                     connectorRef: org.Dockerhub
                                     image: docker/compose:1.29.2
                                     shell: Sh
-                                    command: |-
+                                    command: |
                                         ls
-                                        docker-compose -v
-                                        docker-compose -f docker-compose.yaml up test
+                                        docker -v
+                                        docker compose -f docker-compose.yaml up test --abort-on-container-exit --exit-code-from test
                                     privileged: true
                                     reports:
                                         type: JUnit
