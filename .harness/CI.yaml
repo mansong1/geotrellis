@@ -80,7 +80,7 @@ pipeline:
                                         unzip geotiff-test-files.zip;
                           - step:
                                 type: Run
-                                name: Test
+                                name: Run Tests
                                 identifier: Test
                                 spec:
                                     connectorRef: org.Quayio
