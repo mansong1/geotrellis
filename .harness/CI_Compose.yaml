@@ -1,0 +1,53 @@
+pipeline:
+    name: CI - Compose
+    identifier: CI_Compose
+    allowStageExecutions: false
+    projectIdentifier: Scala
+    orgIdentifier: default
+    tags: {}
+    properties:
+        ci:
+            codebase:
+                connectorRef: org.Github
+                repoName: geotrellis
+                build: <+input>
+    stages:
+        - stage:
+              name: Build and Test
+              identifier: Build_and_Test
+              type: CI
+              spec:
+                  cloneCodebase: true
+                  sharedPaths:
+                      - /var/run
+                      - /var/lib/docker
+                  infrastructure:
+                      type: KubernetesDirect
+                      spec:
+                          connectorRef: org.GKE
+                          namespace: harness-builds
+                          automountServiceAccountToken: false
+                  serviceDependencies:
+                      - identifier: DiND
+                        name: DiND
+                        type: Service
+                        spec:
+                            connectorRef: org.Dockerhub
+                            image: docker:dind
+                            privileged: true
+                  execution:
+                      steps:
+                          - step:
+                                type: Run
+                                name: Check DiND
+                                identifier: Check_DiND
+                                spec:
+                                    connectorRef: org.Dockerhub
+                                    image: docker:dind
+                                    shell: Sh
+                                    command: |-
+                                        while ! docker ps ;do
+                                            echo "Docker not available yet"
+                                        done
+                                        echo "Docker service is up"
+                                        docker ps 
