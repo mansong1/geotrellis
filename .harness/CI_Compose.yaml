@@ -70,7 +70,7 @@ pipeline:
                                 spec:
                                     connectorRef: org.Dockerhub
                                     image: docker/compose
-                                    shell: Bash
+                                    shell: Sh
                                     command: docker compose -f .github/docker-compose.yml up test --abort-on-container-exit --exit-code-from test
                                     reports:
                                         type: JUnit
