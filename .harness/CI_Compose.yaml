@@ -74,8 +74,8 @@ pipeline:
                                     shell: Sh
                                     command: |
                                         ls
-                                        docker -v
-                                        docker-compose docker-compose.yaml up
+                                        docker-compose -v
+                                        docker-compose docker-compose.yaml up test
                                     privileged: true
                                     reports:
                                         type: JUnit
