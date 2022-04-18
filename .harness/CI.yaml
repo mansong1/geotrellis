@@ -94,6 +94,10 @@ pipeline:
                                                 - "**/*.xml"
                                     envVariables:
                                         SCALA_VERSION: 2.12.12
+                                    resources:
+                                        limits:
+                                            memory: 2Gi
+                                            cpu: "1.0"
                   sharedPaths:
                       - /data
                       - /usr/local/src
