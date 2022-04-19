@@ -96,7 +96,7 @@ pipeline:
                                         SCALA_VERSION: 2.12.12
                                     resources:
                                         limits:
-                                            memory: 2Gi
+                                            memory: 3Gi
                                             cpu: "1.0"
                   sharedPaths:
                       - /data
